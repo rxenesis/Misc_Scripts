@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Instala la versión más reciente de openjdk-jre
-sudo apt install openjdk-$(apt-cache pkgnames | grep -oP '^openjdk-\d+-jre$' | grep -oP '\d+' | sort -nr | head -n1)-jre
+sudo apt install openjdk-$(apt-cache pkgnames | grep -oP '^openjdk-\d+-jre$' | grep -oP '\d+' | sort -nr | head -n1)-jre -y
 
 # Solicita el directorio y elimina '/' al final si existe
 read -p "Directorio donde se guardará la información (sin '/' al final): " jd_dirname
