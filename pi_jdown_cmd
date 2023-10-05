@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Instala la versión más reciente de openjdk-jre
+sudo apt install openjdk-$(apt-cache pkgnames | grep -oP '^openjdk-\d+-jre$' | grep -oP '\d+' | sort -nr | head -n1)-jre
+
+# Solicita el directorio y elimina '/' al final si existe
+read -p "Directorio donde se guardará la información (sin '/' al final): " jd_dirname
+[[ $jd_dirname == */ ]] && jd_dirname=${jd_dirname%/}
+
+# Descarga JDownloader.jar
+wget -O "$jd_dirname/JDownloader.jar" http://installer.jdownloader.org/JDownloader.jar
+
+# Pregunta si ya se solicitó el login de acceso
+while true; do
+    read -p "¿Ya fue solicitado el login de acceso? (si/no): " response
+    case $response in
+        [Ss][Ii])
+            break
+            ;;
+        [Nn][Oo])
+            java -Djava.awt.headless=true -jar "$jd_dirname/JDownloader.jar" -norestart
+            break
+            ;;
+        *)
+            echo "Por favor, responde 'si' o 'no'."
+            ;;
+    esac
+done
+
+# Ejecuta JDownloader.jar
+java -Djava.awt.headless=true -jar "$jd_dirname/JDownloader.jar"
