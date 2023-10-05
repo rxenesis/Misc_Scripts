@@ -40,3 +40,10 @@ sudo sed -i -e "s|^ExecStart=.*|ExecStart=$(command -v java) -jar $jd_dirname/JD
               -e "s|^PIDFile=.*|PIDFile=$jd_dirname/JDownloader.pid|" \
               -e "s|^User=.*|User=$(whoami)|" \
               /lib/systemd/system/jdownloader.service
+
+# Habilitar y verificar el estado del servicio jdownloader
+sudo systemctl daemon-reload
+sudo systemctl start jdownloader.service
+pause 3
+sudo systemctl is-active --quiet jdownloader.service && sudo systemctl enable jdownloader.service
+#sudo systemctl status jdownloader.service | grep -q "Active: active (running)" | sudo systemctl enable jdownloader.service
