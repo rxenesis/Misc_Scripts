@@ -28,4 +28,15 @@ while true; do
 done
 
 # Ejecuta JDownloader.jar
-java -Djava.awt.headless=true -jar "$jd_dirname/JDownloader.jar"
+#java -Djava.awt.headless=true -jar "$jd_dirname/JDownloader.jar"
+
+# Descarga un archivo de servicio preconfigurado desde GitHub
+sudo curl -L -o "/lib/systemd/system/jdownloader.service" \
+  "https://raw.githubusercontent.com/rxenesis/Misc_Scripts/main/jdownloader.service"
+
+# Utiliza sed para realizar tres sustituciones en el archivo de servicio.
+# Estas sustituciones actualizan las rutas y nombres de usuario según la configuración del sistema.
+sudo sed -i -e "s|^ExecStart=.*|ExecStart=$(command -v java) -jar $jd_dirname/JDownloader.jar|" \
+              -e "s|^PIDFile=.*|PIDFile=$jd_dirname/JDownloader.pid|" \
+              -e "s|^User=.*|User=$(whoami)|" \
+              /lib/systemd/system/jdownloader.service
