@@ -41,6 +41,9 @@ sudo sed -i -e "s|^ExecStart=.*|ExecStart=$(command -v java) -jar $jd_dirname/JD
               -e "s|^User=.*|User=$(whoami)|" \
               /lib/systemd/system/jdownloader.service
 
+# Crea un enlace simbólico para el servicio jdownloader en /etc/systemd/system/
+sudo ln -s /lib/systemd/system/jdownloader.service /etc/systemd/system/jdownloader.service
+
 # Habilitar y verificar el estado del servicio jdownloader
 sudo systemctl daemon-reload
 sudo systemctl start jdownloader.service
