@@ -18,8 +18,14 @@ echo -e "2. Una conexión a internet activa.\n"
 read -p "Cuando estés listo, presiona Enter:"
 
 # Basic setup
-termux-setup-storage-info | grep -q "Permission granted" || termux-setup-storage
-sleep 2
+# termux-setup-storage-info | grep -q "Permission granted" || termux-setup-storage
+
+# Wait for storage access to be granted
+while ! check_storage_access; do
+    echo "Esperando acceso a alamcenaniento..."
+    sleep 8  # Adjust the sleep time if needed
+done
+
 
 # Actualizar e instalar paquetes necesarios
 pkg update
@@ -72,3 +78,15 @@ EOF
 chmod +x "$url_opener_script"
 
 echo "Configuración completa."
+
+# Function to check if storage access is granted
+check_storage_access() {
+    if [ -d "$HOME/storage" ]; then
+        echo "Storage access is granted."
+        return 0
+    else
+        echo "Storage access is not granted. Running 'termux-setup-storage'..."
+        termux-setup-storage
+        return 1
+    fi
+}
