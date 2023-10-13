@@ -82,10 +82,10 @@ echo "Configuración completa."
 # Function to check if storage access is granted
 check_storage_access() {
     if [ -d "$HOME/storage" ]; then
-        echo "Storage access is granted."
+        echo "Acceso permitido."
         return 0
     else
-        echo "Storage access is not granted. Running 'termux-setup-storage'..."
+        echo "Acceso no permitido. Ejecutando 'termux-setup-storage'..."
         termux-setup-storage
         return 1
     fi
