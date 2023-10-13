@@ -1,4 +1,16 @@
 #!/data/data/com.termux/files/usr/bin/bash
+# Function to check if storage access is granted
+check_storage_access() {
+    if [ -d "$HOME/storage" ]; then
+        echo "Acceso permitido."
+        return 0
+    else
+        echo "Acceso no permitido. Ejecutando 'termux-setup-storage'..."
+        termux-setup-storage
+        return 1
+    fi
+}
+##############################################################
 set -euo pipefail
 
 BLUE='\e[32m'
@@ -78,15 +90,3 @@ EOF
 chmod +x "$url_opener_script"
 
 echo "Configuración completa."
-
-# Function to check if storage access is granted
-check_storage_access() {
-    if [ -d "$HOME/storage" ]; then
-        echo "Acceso permitido."
-        return 0
-    else
-        echo "Acceso no permitido. Ejecutando 'termux-setup-storage'..."
-        termux-setup-storage
-        return 1
-    fi
-}
